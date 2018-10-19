@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/background"
+    tools:context="com.example.irina.art.ClassificationActivity">
+
+    <TextView
+        android:id="@+id/textField2"
+        android:text="Изучай"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/AppStyle2" />
+
+    <Button
+        android:id="@+id/touchMe2"
+        android:onClick="toArtists"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="128dp"
+        android:text="Художники"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textField2"
+        style="@style/AppStyle2.Button"/>
+
+    <Button
+        android:id="@+id/touchMe3"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="64dp"
+        android:text="Направления"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textField2"
+        style="@style/AppStyle2.Button"/>
+
+
+</android.support.constraint.ConstraintLayout>

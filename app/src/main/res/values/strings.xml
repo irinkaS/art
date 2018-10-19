@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Art</string>
+    <string name="title_activity_classification">ClassificationActivity</string>
+</resources>
