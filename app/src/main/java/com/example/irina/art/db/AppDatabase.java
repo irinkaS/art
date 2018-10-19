@@ -7,6 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.example.irina.art.R;
 import com.example.irina.art.dao.ArtistItemDao;
 import com.example.irina.art.model.ArtistItem;
 
@@ -33,7 +34,9 @@ public abstract class AppDatabase extends RoomDatabase {
                         Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                                populateWithTestData(getInstance(context));
+                                AppDatabase db = getInstance(context);
+
+                                populateWithTestData(db, context);
                             }
                         });
                     }
@@ -64,15 +67,16 @@ public abstract class AppDatabase extends RoomDatabase {
         return artistItems;
     }
 
-    private static void populateWithTestData(AppDatabase db) {
-        addArtistItem(db, createArtistsList());
+    private static void populateWithTestData(AppDatabase db, Context context) {
+        addArtistItem(db, createArtistsList(context));
     }
 
-    private static List<ArtistItem> createArtistsList() {
+    private static List<ArtistItem> createArtistsList(Context context) {
         List<ArtistItem> artistsList = new ArrayList<>();
-        artistsList.add(new ArtistItem(null, "Gogh"));
-        artistsList.add(new ArtistItem(null, "Malevich"));
-        artistsList.add(new ArtistItem(null, "Mone"));
+        artistsList.add(new ArtistItem(null, context.getString(R.string.Gogh)));
+        artistsList.add(new ArtistItem(null, context.getString(R.string.Malevich)));
+        artistsList.add(new ArtistItem(null, context.getString(R.string.Mone)));
+        artistsList.add(new ArtistItem(null, context.getString(R.string.Picasso)));
         return artistsList;
     }
 }

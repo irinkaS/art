@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Art</string>
     <string name="title_activity_classification">ClassificationActivity</string>
+    <string name="Gogh">Гог</string>
+    <string name="Malevich">Малевич</string>
+    <string name="Mone">Моне</string>
+    <string name="Picasso">Пикассо</string>
 </resources>
