@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    tools:context="com.example.irina.art.MainActivity">
+    tools:context="com.example.irina.art.ui.activity.MainActivity">
 
     <TextView
         android:id="@+id/textField1"

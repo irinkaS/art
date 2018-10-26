@@ -14,6 +14,9 @@ public interface ArtistItemDao {
     @Query("SELECT * FROM artistitem")
     List<ArtistItem> getAll();
 
+    @Query("SELECT * FROM artistitem WHERE id = :artistId")
+    ArtistItem findById(Integer artistId);
+
     @Query("SELECT * FROM artistitem where artistName LIKE :artistName")
     ArtistItem findByName(String artistName);
 

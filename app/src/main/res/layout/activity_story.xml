@@ -5,7 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background"
-    tools:context="com.example.irina.art.StoryActivity">
+    tools:context="com.example.irina.art.ui.activity.StoryActivity">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="10dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
     <TextView
         android:id="@+id/textField4"

@@ -1,15 +1,16 @@
 package com.example.irina.art.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.irina.art.R;
 import com.example.irina.art.model.ArtistItem;
+import com.example.irina.art.ui.activity.StoryActivity;
 
 import java.util.List;
 
@@ -41,7 +42,10 @@ public class ArtistButtonRecyclerViewAdapter extends RecyclerView.Adapter<Artist
 		holder.artistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, artistItem.getArtistName(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, artistItem.getArtistName(), Toast.LENGTH_LONG).show();
+				Intent myIntent = new Intent(context, StoryActivity.class);
+				myIntent.putExtra("artistId", artistItem.getId()); //Optional parameters
+				context.startActivity(myIntent);
             }
         });
 

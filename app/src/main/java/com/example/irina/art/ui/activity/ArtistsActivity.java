@@ -1,21 +1,15 @@
-package com.example.irina.art;
+package com.example.irina.art.ui.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.example.irina.art.R;
 import com.example.irina.art.db.AppDatabase;
 import com.example.irina.art.model.ArtistItem;
 import com.example.irina.art.ui.adapter.ArtistButtonRecyclerViewAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistsActivity extends AppCompatActivity {
@@ -30,11 +24,11 @@ public class ArtistsActivity extends AppCompatActivity {
         initArtistsRecyclerView(artistItems);
     }
 
-    public void toArtist(View view){
-        Intent myIntent = new Intent(this, StoryActivity.class);
-        myIntent.putExtra("artistName", "Van Gogh"); //Optional parameters
-        this.startActivity(myIntent);
-    }
+//    public void toArtist(View view){
+//        Intent myIntent = new Intent(this, StoryActivity.class);
+//        myIntent.putExtra("artistName", "Van Gogh"); //Optional parameters
+//        this.startActivity(myIntent);
+//    }
 
 
 //        LinearLayout layout = (LinearLayout) findViewById(R.id.activityArtistsLayout);

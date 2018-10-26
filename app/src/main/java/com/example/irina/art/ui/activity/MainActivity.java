@@ -1,10 +1,11 @@
-package com.example.irina.art;
+package com.example.irina.art.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
+
+import com.example.irina.art.R;
 
 public class MainActivity extends AppCompatActivity {
 
