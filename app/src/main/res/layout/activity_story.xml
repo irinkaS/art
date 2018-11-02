@@ -7,15 +7,12 @@
     android:background="@mipmap/background"
     tools:context="com.example.irina.art.ui.activity.StoryActivity">
 
-    <ProgressBar
-        android:id="@+id/progressbar"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/progressBarRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="10dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 
     <TextView
         android:id="@+id/textField4"

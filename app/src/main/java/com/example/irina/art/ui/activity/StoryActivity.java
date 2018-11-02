@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.irina.art.R;
-import com.example.irina.art.db.AppDatabase;
-import com.example.irina.art.model.ArtistItem;
+import com.example.irina.art.ui.adapter.ProgressBarRecyclerViewAdapter;
 
 public class StoryActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private int progressStatus = 0;
     private Handler handler = new Handler();
@@ -24,7 +26,8 @@ public class StoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story); // shift f6
         setTitle("Story");
 
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+
+//        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
 
         Intent intent = this.getIntent();
@@ -33,15 +36,28 @@ public class StoryActivity extends AppCompatActivity {
 
         TextView textView = findViewById(R.id.textField4);
         textView.setText("Loading...");
-        initializeThread(() -> {
-            if (artistId != -1) {
-                AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
-                ArtistItem artistItem = appDatabase.artistItemDao().findById(artistId);
-                textView.setText(artistItem.getArtistName());
-            } else {
-                textView.setText("Wrong Id");
-            }
-        });
+//        initializeThread(() -> {
+//            if (artistId != -1) {
+//                AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
+//                ArtistItem artistItem = appDatabase.artistItemDao().findById(artistId);
+//                textView.setText(artistItem.getArtistName());
+//            } else {
+//                textView.setText("Wrong Id");
+//            }
+//        });
+
+        initProgressBarsRecyclerView(5, 1000);
+    }
+
+    public void initProgressBarsRecyclerView(int quantity, int duration) {
+        recyclerView = findViewById(R.id.progressBarRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        ProgressBarRecyclerViewAdapter progressBarRecyclerViewAdapter = new
+                ProgressBarRecyclerViewAdapter(quantity, duration);
+        recyclerView.setAdapter(progressBarRecyclerViewAdapter);
+        progressBarRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     void initializeThread(Runnable onComplete) {
