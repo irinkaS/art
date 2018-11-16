@@ -16,11 +16,14 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
     private int duration;
     private int[] progressStatuses;
     private int currentProgressBar;
+    Runnable onComplete;
 
-    public ProgressBarRecyclerViewAdapter(int quantity, int duration) {
+
+    public ProgressBarRecyclerViewAdapter(int quantity, int duration, Runnable onComplete) {
         super();
         this.quantity = quantity;
         this.duration = duration;
+        this.onComplete = onComplete;
         progressStatuses = new int[quantity];
     }
 
@@ -40,9 +43,7 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
 
         final Context context = holder.itemView.getContext();
 
-        initializeThread(() -> {
-            System.out.println("Hello");
-        }, holder.progressBar, position);
+        initializeThread(onComplete, holder.progressBar, position);
 
 
     }
