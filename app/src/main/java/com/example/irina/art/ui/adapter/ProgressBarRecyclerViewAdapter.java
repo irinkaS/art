@@ -15,6 +15,7 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
     private int quantity;
     private int duration;
     private int[] progressStatuses;
+    private int currentProgressBar;
 
     public ProgressBarRecyclerViewAdapter(int quantity, int duration) {
         super();
@@ -52,14 +53,19 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
         new Thread(() -> {
             while (num != 0 && progressStatuses[num - 1] != 100) {
             }
+            currentProgressBar = num;
             while (progressStatuses[num] < 100) {
                 progressStatuses[num]++;
-                android.os.SystemClock.sleep(50);
+                android.os.SystemClock.sleep(duration / 100);
                 handler.post(() -> progressBar.setProgress(progressStatuses[num]));
             }
             handler.post(onComplete);
         }).start();
 
+    }
+
+    public void makeCurrentProgressBarEqual100Percent() {
+        progressStatuses[currentProgressBar] = 100;
     }
 
 
