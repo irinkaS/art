@@ -9,18 +9,28 @@ import android.support.annotation.NonNull;
 
 import com.example.irina.art.R;
 import com.example.irina.art.dao.ArtistItemDao;
+import com.example.irina.art.dao.ArtistWithStoryItemsDao;
+import com.example.irina.art.dao.StoryItemDao;
 import com.example.irina.art.model.ArtistItem;
+import com.example.irina.art.model.StoryItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
-@Database(entities = {ArtistItem.class}, version = 1)
+@Database(entities = {ArtistItem.class, StoryItem.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
 
     public abstract ArtistItemDao artistItemDao();
+
+    public abstract ArtistWithStoryItemsDao artistWithStoryItemsDao();
+
+    public abstract StoryItemDao storyItemDao();
+
 
     private static AppDatabase getAppDatabase(Context context) {
         return
@@ -67,6 +77,23 @@ public abstract class AppDatabase extends RoomDatabase {
         return artistItems;
     }
 
+    private static Map<String, List<StoryItem>> addStoryItems(final AppDatabase db, Map<String, List<StoryItem>> storyItemsByArtistName) {
+
+        List<ArtistItem> artistItems = db.artistItemDao().getAll();
+        for (ArtistItem artist : artistItems) {
+            String artistName = artist.getArtistName();
+            if (storyItemsByArtistName.containsKey(artistName)) {
+                List<StoryItem> storyItems = storyItemsByArtistName.get(artistName);
+                for (StoryItem storyItem : storyItems) {
+                    storyItem.setArtistItemId(artist.getId());
+                    db.storyItemDao().insert(storyItem);
+                }
+            }
+        }
+
+        return storyItemsByArtistName;
+    }
+
     private static void populateWithTestData(AppDatabase db, Context context) {
         addArtistItem(db, createArtistsList(context));
     }
@@ -78,5 +105,16 @@ public abstract class AppDatabase extends RoomDatabase {
         artistsList.add(new ArtistItem(null, context.getString(R.string.Mone)));
         artistsList.add(new ArtistItem(null, context.getString(R.string.Picasso)));
         return artistsList;
+    }
+
+    private static Map<String, List<StoryItem>> createstoryItemsByArtistNameMap(Context context) {
+        Map<String, List<StoryItem>> storyItemsByArtistName = new HashMap<>();
+        List<StoryItem> listOfStoryItems = new ArrayList<>();
+        listOfStoryItems.add(new StoryItem("https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Autoportrait_de_Vincent_van_Gogh.JPG/210px-Autoportrait_de_Vincent_van_Gogh.JPG", "Gogh Portrait"));
+        storyItemsByArtistName.put(context.getString(R.string.Gogh), listOfStoryItems);
+        listOfStoryItems = new ArrayList<>();
+        storyItemsByArtistName.put(context.getString(R.string.Malevich), listOfStoryItems);
+        //.add(new ArtistItem(null, context.getString(R.string.Gogh)));
+        return storyItemsByArtistName;
     }
 }
