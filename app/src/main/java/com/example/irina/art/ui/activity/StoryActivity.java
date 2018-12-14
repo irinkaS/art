@@ -47,9 +47,10 @@ public class StoryActivity extends AppCompatActivity {
 
 
         TextView textView = findViewById(R.id.storyText);
-        textView.setText("Loading...");
+        ImageView imageView = findViewById(R.id.storyImage);
+        showStoryItem(textView, imageView);
 
-        initProgressBarsRecyclerView(5, 5000);
+        initProgressBarsRecyclerView(storyItems.size(), 5000);
     }
 
     public void initProgressBarsRecyclerView(int quantity, int duration) {
@@ -76,13 +77,17 @@ public class StoryActivity extends AppCompatActivity {
 //                textView.setText(mockData[counter]);
 //            }
 
-            if (!storyItems.isEmpty()) {
-                StoryItem storyItem = storyItems.get(counter);
-                Picasso.get().load(storyItem.getPictureLink()).into(imageView);
-                textView.setText(storyItem.getText());
-            }
-            counter = (counter + 1) % storyItems.size();
+            showStoryItem(textView, imageView);
         };
+    }
+
+    private void showStoryItem(TextView textView, ImageView imageView) {
+        if (!storyItems.isEmpty()) {
+            StoryItem storyItem = storyItems.get(counter);
+            Picasso.get().load(storyItem.getPictureLink()).into(imageView);
+            textView.setText(storyItem.getText());
+        }
+        counter = (counter + 1) % storyItems.size();
     }
 
     public void toNextSlideOfStory(View view) {
