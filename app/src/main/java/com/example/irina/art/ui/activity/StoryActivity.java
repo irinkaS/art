@@ -11,26 +11,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.irina.art.R;
+import com.example.irina.art.dao.ArtistWithStoryItemsDao;
+import com.example.irina.art.db.AppDatabase;
+import com.example.irina.art.model.ArtistWithStoryItems;
+import com.example.irina.art.model.StoryItem;
 import com.example.irina.art.ui.adapter.ProgressBarRecyclerViewAdapter;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class StoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ProgressBarRecyclerViewAdapter progressBarRecyclerViewAdapter;
-    private String[] mockData = {"Gogh portrait", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Autoportrait_de_Vincent_van_Gogh.JPG/210px-Autoportrait_de_Vincent_van_Gogh.JPG"};
+    //    private String[] mockData = {"Gogh portrait", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Autoportrait_de_Vincent_van_Gogh.JPG/210px-Autoportrait_de_Vincent_van_Gogh.JPG"};
     int counter = 0;
+    private ArtistWithStoryItemsDao artistWithStoryItemsDao;
+    private List<StoryItem> storyItems;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_story); // shift f6
+        setContentView(R.layout.activity_story); // shift f6 - переименование
         setTitle("Story");
+
+        AppDatabase appDatabase = AppDatabase.getInstance(getApplicationContext());
+        artistWithStoryItemsDao = appDatabase.artistWithStoryItemsDao();
 
         Intent intent = this.getIntent();
         Integer artistId = intent.getIntExtra("artistId", -1);
+        ArtistWithStoryItems artistWithStoryItems = artistWithStoryItemsDao.loadArtistWithStoryItems(artistId);
+        storyItems = artistWithStoryItems.storyItems;
 
 
         TextView textView = findViewById(R.id.storyText);
@@ -53,16 +66,22 @@ public class StoryActivity extends AppCompatActivity {
     @NonNull
     private Runnable getOnCompleteFunction(TextView textView, ImageView imageView) {
         return () -> {
-            if (mockData[counter].contains("http")) {
-                imageView.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.GONE);
-                Picasso.get().load(mockData[counter]).into(imageView);
-            } else {
-                imageView.setVisibility(View.GONE);
-                textView.setVisibility(View.VISIBLE);
-                textView.setText(mockData[counter]);
+//            if (mockData[counter].contains("http")) {
+//                imageView.setVisibility(View.VISIBLE);
+//                textView.setVisibility(View.GONE);
+//                Picasso.get().load(mockData[counter]).into(imageView);
+//            } else {
+//                imageView.setVisibility(View.GONE);
+//                textView.setVisibility(View.VISIBLE);
+//                textView.setText(mockData[counter]);
+//            }
+
+            if (!storyItems.isEmpty()) {
+                StoryItem storyItem = storyItems.get(counter);
+                Picasso.get().load(storyItem.getPictureLink()).into(imageView);
+                textView.setText(storyItem.getText());
             }
-            counter = (counter + 1) % 2;
+            counter = (counter + 1) % storyItems.size();
         };
     }
 

@@ -96,6 +96,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static void populateWithTestData(AppDatabase db, Context context) {
         addArtistItem(db, createArtistsList(context));
+        addStoryItems(db, createStoryItemsByArtistNameMap(context));
     }
 
     private static List<ArtistItem> createArtistsList(Context context) {
@@ -107,10 +108,11 @@ public abstract class AppDatabase extends RoomDatabase {
         return artistsList;
     }
 
-    private static Map<String, List<StoryItem>> createstoryItemsByArtistNameMap(Context context) {
+    private static Map<String, List<StoryItem>> createStoryItemsByArtistNameMap(Context context) {
         Map<String, List<StoryItem>> storyItemsByArtistName = new HashMap<>();
         List<StoryItem> listOfStoryItems = new ArrayList<>();
         listOfStoryItems.add(new StoryItem("https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Autoportrait_de_Vincent_van_Gogh.JPG/210px-Autoportrait_de_Vincent_van_Gogh.JPG", "Gogh Portrait"));
+        listOfStoryItems.add(new StoryItem("http://vangogen.ru/wp-content/uploads/2014/06/3851-763x1024.jpg", "Flowers"));
         storyItemsByArtistName.put(context.getString(R.string.Gogh), listOfStoryItems);
         listOfStoryItems = new ArrayList<>();
         storyItemsByArtistName.put(context.getString(R.string.Malevich), listOfStoryItems);
