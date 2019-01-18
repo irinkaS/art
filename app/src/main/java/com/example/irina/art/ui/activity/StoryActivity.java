@@ -59,7 +59,7 @@ public class StoryActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         progressBarRecyclerViewAdapter = new
-                ProgressBarRecyclerViewAdapter(quantity, duration, getOnCompleteFunction(findViewById(R.id.storyText), findViewById(R.id.storyImage)));
+                ProgressBarRecyclerViewAdapter(quantity, duration, this, getOnCompleteFunction(findViewById(R.id.storyText), findViewById(R.id.storyImage)));
         recyclerView.setAdapter(progressBarRecyclerViewAdapter);
         progressBarRecyclerViewAdapter.notifyDataSetChanged();
     }
@@ -86,8 +86,9 @@ public class StoryActivity extends AppCompatActivity {
             StoryItem storyItem = storyItems.get(counter);
             Picasso.get().load(storyItem.getPictureLink()).into(imageView);
             textView.setText(storyItem.getText());
+            counter = (counter + 1) % storyItems.size();
         }
-        counter = (counter + 1) % storyItems.size();
+
     }
 
     public void toNextSlideOfStory(View view) {

@@ -1,8 +1,10 @@
 package com.example.irina.art.ui.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +19,22 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
     private int[] progressStatuses;
     private int currentProgressBar;
     Runnable onComplete;
+    private Handler handler = new Handler();
+    Activity activity;
 
 
-    public ProgressBarRecyclerViewAdapter(int quantity, int duration, Runnable onComplete) {
+    public ProgressBarRecyclerViewAdapter(int quantity, int duration, Activity activity, Runnable onComplete) {
         super();
         this.quantity = quantity;
         this.duration = duration;
         this.onComplete = onComplete;
         progressStatuses = new int[quantity];
+        this.activity = activity;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View progressBarLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress_bar, parent, false);
-
         return new ViewHolder(progressBarLayout);
     }
 
@@ -40,25 +44,19 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
             return;
         }
 
-
-        final Context context = holder.itemView.getContext();
-
         initializeThread(onComplete, holder.progressBar, position);
-
-
     }
 
-    private Handler handler = new Handler();
 
-    void initializeThread(Runnable onComplete, ProgressBar progressBar, int num) {
+    void initializeThread(Runnable onComplete, ProgressBar progressBar, int position) {
         new Thread(() -> {
-            while (num != 0 && progressStatuses[num - 1] != 100) {
+            while (position != 0 && progressStatuses[position - 1] != 100) {
             }
-            currentProgressBar = num;
-            while (progressStatuses[num] < 100) {
-                progressStatuses[num]++;
+            currentProgressBar = position;
+            while (progressStatuses[position] < 100) {
+                progressStatuses[position]++;
                 android.os.SystemClock.sleep(duration / 100);
-                handler.post(() -> progressBar.setProgress(progressStatuses[num]));
+                handler.post(() -> progressBar.setProgress(progressStatuses[position]));
             }
             handler.post(onComplete);
         }).start();
@@ -82,6 +80,13 @@ public class ProgressBarRecyclerViewAdapter extends RecyclerView.Adapter<Progres
         ViewHolder(View view) {
             super(view);
             progressBar = view.findViewById(R.id.progressbar);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) progressBar.getLayoutParams();
+            int leftMargin = layoutParams.leftMargin;
+            int rightMargin = layoutParams.rightMargin;
+
+            DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+            int pxScreenWidth = displayMetrics.widthPixels;
+            progressBar.getLayoutParams().width = (pxScreenWidth / quantity - leftMargin - rightMargin);
         }
     }
 
